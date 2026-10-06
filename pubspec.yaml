@@ -13,10 +13,6 @@ topics:
   - sarimax
   - ffi
 
-# Developed inside the Sweet Limit monorepo; the public home is the repository
-# above. This guard is removed only right before `dart pub publish`, which the
-# owner runs by hand.
-publish_to: none
 
 platforms:
   android:
