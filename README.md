@@ -2,7 +2,7 @@
 
 A framework-agnostic **time-series analysis SDK for Dart**: ARIMA, SARIMA and
 SARIMAX powered by the [ctsa](https://github.com/rafat/ctsa) C library, plus
-pure-Dart forecasting primitives. Formerly named `tsforge`.
+pure-Dart forecasting primitives.
 
 `tseries` provides a clean, idiomatic Dart API for time-series work. It is a
 plain Dart package with **no Flutter dependency**, so it is reusable from
@@ -45,15 +45,17 @@ an FFI boundary. Adding a native dependency has to earn its keep.
 
 | Capability | Implementation |
 | --- | --- |
-| Simple moving average (SMA) | Pure Dart — available now |
-| Linear (OLS) trend forecast + prediction SE | Pure Dart — available now |
-| EWMA, z-score, rolling stats | Pure Dart — planned |
-| ARIMA / SARIMA fit + forecast | Native C core (ctsa) via FFI — available now |
-| Robust forecast + confidence band + order ladder | `arimaForecast` (pure-Dart wrapper over the native fit) — available now |
-| Auto-ARIMA order selection (KPSS for d, seasonal strength for D, stepwise or exhaustive search, AIC/AICc/BIC, search journal) | `autoArima` — pure Dart order search over the native fit — available since 0.8.0 (replaces the native `autoArimaForecast` removed in 0.8.0, see [below](#automatic-order-selection-autoarima)) |
-| KPSS level-stationarity test, classical decomposition + seasonal strength F_S, root-location check of lag polynomials, information criteria | Pure Dart — available since 0.8.0 |
-| SARIMAX: regression with (seasonal) ARIMA errors, coefficient SEs/covariance | `fitSarimax` — native C core (ctsa) via FFI — available now (0.7.0) |
-| SARIMAX forecast + confidence band + order ladder | `sarimaxForecast` — available now (0.7.0) |
+| Simple moving average (SMA) | Pure Dart — available |
+| Linear (OLS) trend forecast + prediction SE | Pure Dart — available |
+| Damped Holt exponential smoothing (caller-supplied alpha/beta/phi) | `holtForecast` — pure Dart — available |
+| SES / EWMA | Pure Dart — available as `holtForecast` with `phi == 0` (see its documentation) |
+| z-score, rolling statistics | Pure Dart — planned |
+| ARIMA / SARIMA fit + forecast | Native C core (ctsa) via FFI — available |
+| Robust forecast + confidence band + order ladder | `arimaForecast` (pure-Dart wrapper over the native fit) — available |
+| Auto-ARIMA order selection (KPSS for d, seasonal strength for D, stepwise or exhaustive search, AIC/AICc/BIC, search journal) | `autoArima` — pure Dart order search over the native fit — available (see [below](#automatic-order-selection-autoarima)) |
+| KPSS level-stationarity test, classical decomposition + seasonal strength F_S, root-location check of lag polynomials, information criteria | Pure Dart — available |
+| SARIMAX: regression with (seasonal) ARIMA errors, coefficient SEs/covariance | `fitSarimax` — native C core (ctsa) via FFI — available |
+| SARIMAX forecast + confidence band + order ladder | `sarimaxForecast` — available |
 
 ## Usage
 
@@ -185,21 +187,6 @@ The public surface takes and returns only plain Dart types. `List<num>` (and
 `Map<String, List<num>>` for regressors) in, `ArimaForecast` /
 `SarimaFitResult` / `SarimaxFitResult` / `SarimaxForecast` out. No `Pointer`,
 no native detail.
-
-### Removed: `autoArimaForecast`
-
-`autoArimaForecast` and its result type `ForecastResult` were **removed in
-0.8.0** (a breaking change). They ran ctsa's automatic order search, which is —
-by its own comments or by inspection — a C version of GPL-licensed R code (the
-R packages forecast, tseries and urca, R's STL and Friedman's super smoother),
-incompatible with publishing this package under BSD-3-Clause. That code is no
-longer in the package at all, source included (see
-`third_party/ctsa/PROVENANCE.md`, "Local modifications" entry 9).
-
-Its replacement, `autoArima`, is written in Dart on top of the package's own
-fixed-order fit, from the published methodology (Hyndman & Khandakar 2008),
-and is not a drop-in: it returns the search journal along with the model (see
-the next section).
 
 ### Automatic order selection (`autoArima`)
 
@@ -389,8 +376,8 @@ tseries' own BSD-3-Clause code in `third_party/ctsa_replacements/` (written
 clean-room from published algorithms, checked against scipy/numpy — see
 `tool/cleanroom_accuracy.c` and `tool/polyroot_accuracy.c`). Unreachable code
 of restrictive origin (Numerical Recipes, AS 197, R's ARIMA transforms) was
-deleted, and so was the whole auto-ARIMA cluster (a C version of GPL R code;
-0.8.0). `erf`/`erfc` now come from the platform's C math library. Some
+deleted, and so was the whole auto-ARIMA cluster (a C version of GPL R code).
+`erf`/`erfc` now come from the platform's C math library. Some
 third-party code with non-standard or GPL terms remains and is listed under
 [License](#license); the per-file audit is in
 `third_party/ctsa/PROVENANCE.md` ("License audit"), together with every local
@@ -441,7 +428,8 @@ checked against statsmodels and an exact Cholesky computation on AR, MA, ARMA,
 seasonal and regression-error models. Pure AR(1) error models —
 ARIMA(1,d,0) without seasonal AR/MA terms — were wrong in ctsa (the first
 observation got variance σ² instead of σ²/(1 − φ²)) and are fixed in the
-vendored copy; see `CHANGELOG.md` and `test/ar1_likelihood_test.dart`. Like
+vendored copy; see `third_party/ctsa/PROVENANCE.md` ("Local modifications"
+10) and `test/ar1_likelihood_test.dart`. Like
 R, it counts only the n − d − s·D differenced observations (statsmodels'
 exact-diffuse `llf` additionally charges −½·ln 2π per differenced-away one).
 
@@ -451,8 +439,8 @@ Orders without ARMA terms — the random walk (0,1,0), (0,2,0), white noise with
 a mean, seasonal random walks `(0,d,0)(0,D,0)[s]` — forecast through the same
 AS 182 Kalman forecaster as every other order (as AR(1) with φ = 0); their
 forecasts and standard errors are checked against the closed form and
-statsmodels in `test/white_noise_test.dart`. Before the fix in `CHANGELOG.md`
-their standard errors were uninitialised memory.
+statsmodels in `test/white_noise_test.dart`. In upstream ctsa their standard
+errors were uninitialised memory (PROVENANCE.md, "Local modifications" 12).
 
 A few inputs on which ctsa reads or writes outside its buffers are refused
 with an `ArgumentError` instead of being run (PROVENANCE.md, "Local
@@ -562,7 +550,7 @@ The native core is **[ctsa](https://github.com/rafat/ctsa)** by Rafat Hussain
 the MIT, BSD-style and CC0 fragments it contains, are reproduced in
 [`THIRD_PARTY_NOTICES`](THIRD_PARTY_NOTICES). No LGPL code remains in the package.
 
-**Current status — not yet published (`publish_to: none`).** One open item,
+**Licensing status.** One open item,
 recorded in `THIRD_PARTY_NOTICES` and `third_party/ctsa/PROVENANCE.md` ("License audit",
 "Open licensing questions"); it is an engineering note, not a legal
 conclusion: the exact-likelihood and forecasting core used by **every** fit
@@ -571,7 +559,6 @@ AS 75, which the Royal Statistical Society permits to be distributed
 "provided that no fee is charged" (`neldermead.c`, AS 47, is linked but never
 used).
 
-The GPL-derived auto-ARIMA code that used to be listed here was removed in
-0.8.0; ctsa's unaudited `sarimax_wrapper()` (never called by tseries),
-`boxcox.c` and the unreachable `initest.c` (Burg, no licence found for the
-original) were removed after it.
+ctsa's GPL-derived auto-ARIMA code, its unaudited `sarimax_wrapper()` (never
+called by tseries), `boxcox.c` and the unreachable `initest.c` (Burg, no
+licence found for the original) are not in the package.
