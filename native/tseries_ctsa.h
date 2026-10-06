@@ -1,0 +1,328 @@
+// SPDX-License-Identifier: BSD-3-Clause
+//
+// tseries_ctsa.h — thin, stable C shim over the vendored `ctsa` library.
+//
+// WHY THIS SHIM EXISTS (read before editing):
+//
+//  1. Symbol export. Code assets are loaded as a dynamic library and looked up
+//     by symbol via dart:ffi `@Native`. On Windows, neither MSVC (`cl /LD`) nor
+//     clang (`--shared`) exports a symbol unless it is marked
+//     `__declspec(dllexport)`, and there is no portable "export everything"
+//     switch in the `native_toolchain_c` build-hook path. ctsa's own functions
+//     carry no export annotation, so binding them directly would link but find
+//     no symbols at runtime. Every function this shim exposes is explicitly
+//     exported (TSERIES_EXPORT), so lookups succeed on Windows, Android and iOS
+//     identically.
+//
+//  2. No struct layout across the FFI boundary. ctsa's public objects
+//     (`arima_object`, `sarimax_object`, ...) are pointers to structs whose
+//     field layout differs between the repo's stale `header/ctsa.h` and the
+//     real `src/ctsa.h` that the .c files compile against. Binding those structs
+//     from Dart risks reading fields at the wrong offset -> memory corruption.
+//     This shim keeps every ctsa struct on the C side and returns results only
+//     as flat scalars / caller-owned `double`/`int` buffers. No Dart code ever
+//     sees a ctsa struct.
+//
+//  3. Trust nothing from native. Every entry point validates its arguments and
+//     scans every numeric result for NaN/Inf before returning success, guarding
+//     against ctsa's known failure modes (NaN blow-ups, non-convergence, and
+//     degenerate fits).
+
+#ifndef TSERIES_CTSA_H_
+#define TSERIES_CTSA_H_
+
+#if defined(_WIN32)
+#define TSERIES_EXPORT __declspec(dllexport)
+#else
+#define TSERIES_EXPORT __attribute__((visibility("default")))
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// ---------------------------------------------------------------------------
+// Status codes. 0 == success; negatives are failures. Kept in sync with the
+// Dart wrapper (TseriesStatus).
+// ---------------------------------------------------------------------------
+#define TSERIES_OK 0
+#define TSERIES_ERR_NULL_ARG (-1)      // a required pointer argument was NULL
+#define TSERIES_ERR_BAD_SIZE (-2)      // series too short / negative sizes
+#define TSERIES_ERR_BAD_PARAM (-3)     // inconsistent model orders
+#define TSERIES_ERR_INIT_FAILED (-4)   // ctsa *_init returned NULL
+#define TSERIES_ERR_NON_FINITE (-5)    // a fitted/forecast value was NaN or Inf
+#define TSERIES_ERR_DEGENERATE (-6)    // fit is degenerate: residual variance <= 0
+#define TSERIES_ERR_TOO_LARGE (-7)     // model state would exceed TSERIES_MAX_STATE_BYTES
+#define TSERIES_ERR_EXOG_DEFECT (-8)   // strict policy: a regressor column is unusable
+#define TSERIES_ERR_NATIVE_COLLINEAR (-9)  // ctsa's own rank check rejected the regressors
+
+// ---------------------------------------------------------------------------
+// Memory ceiling for the exact-likelihood state of one ARMA model.
+//
+// ctsa's exact likelihood (AS 154 `starma`, re-run on EVERY likelihood
+// evaluation, and AS 182 `forkal` for the forecast) allocates a packed
+// triangular work array `rbar` of nrbar = np*(np-1)/2 doubles, where
+//     ir = max(p + s*P, q + s*Q + 1),   np = ir*(ir+1)/2,
+// i.e. nrbar ~ ir^4 / 8 -- quartic in the seasonal period. With s = 288 and a
+// single seasonal MA term that is ~890 M doubles (~7 GB) per evaluation; with
+// P or Q = 2 the int arithmetic inside ctsa overflows outright. ctsa does not
+// check the malloc, so the outcome is an OOM kill or a NULL dereference -- never
+// a clean error.
+//
+// 64 MiB is the ceiling: it admits every seasonal configuration we have seen
+// complete in reasonable time on a host (s = 48 with one seasonal MA term needs
+// ~6.5 MB and takes ~0.5 s per fit; time grows with nrbar as well, so s ~ 80,
+// right under the ceiling, already costs seconds to tens of seconds), and it is
+// far below the point where a mobile process gets killed. It is a guard against
+// configurations that are infeasible, not a tuning knob for feasible ones:
+// every model that fitted before this guard existed and uses less than 64 MiB
+// is unaffected. The estimate is computed in 64-bit before ctsa is called.
+// ---------------------------------------------------------------------------
+#define TSERIES_MAX_STATE_BYTES (64LL * 1024 * 1024)
+
+// Minimum residual degrees of freedom the shim demands after differencing and
+// after every estimated coefficient (ARMA terms, intercept, regressors) is
+// accounted for. ctsa's regression step calls tinv(df = Nused - regressors),
+// which `exit(1)`s the whole process for df <= 0; the fixed-order paths
+// therefore require Nused - (all coefficients) >= 2, which also leaves sigma2
+// at least one degree of freedom. The same floor the SARIMA path has always
+// used (n > d + s*D + p + q + P + Q + 1), extended by the regressors.
+#define TSERIES_MIN_RESIDUAL_DOF 2
+
+// ---------------------------------------------------------------------------
+// Regressor screening (tseries_sarimax_fit). ctsa's own collinearity check is
+// defective (see third_party/ctsa/PROVENANCE.md), so the shim screens every
+// regressor column itself, on the column AFTER the same differencing ctsa
+// applies to it, before ctsa ever sees it.
+//
+// * A column is ZERO after differencing when max|diff(col)| <= TOL_ZERO *
+//   max|col|. A constant column under d >= 1, a linear trend under d >= 2, or a
+//   period-s pattern under D >= 1 differences to (rounding-level) zero. 1e-12
+//   sits three orders of magnitude above the rounding noise of a few
+//   differencing passes (~1e-15 relative) and far below any column that still
+//   carries information after differencing.
+// * A column is COLLINEAR when, after projecting out the intercept (if one is
+//   estimated) and every earlier accepted column (two-pass modified
+//   Gram-Schmidt), less than TOL_COLLINEAR of its norm remains, i.e. it lies
+//   within ~1e-8 rad of their span. Exact linear combinations leave ~1e-15;
+//   anything under 1e-8 implies a design condition number >= 1e8, at which
+//   the regression coefficients carry no usable digits in double precision.
+// ---------------------------------------------------------------------------
+#define TSERIES_EXOG_TOL_ZERO 1e-12
+#define TSERIES_EXOG_TOL_COLLINEAR 1e-8
+
+// Largest magnitude tseries_sarimax_fit accepts in the series, the regressors
+// and their differenced values. ctsa squares these values (sums of squares,
+// the SVD in its collinearity check) without rescaling, and past ~1e154 a
+// square overflows to Inf. 1e150 keeps every square finite while lying some
+// 140 orders of magnitude beyond any physical measurement. (It does not, and
+// cannot, cover one more hazard: ctsa's SVD can fail to converge -- leaking its
+// work buffers -- when the entries of ONE design span >~200 orders of
+// magnitude; see PROVENANCE.md, "Local modifications" #3.)
+#define TSERIES_MAX_ABS_VALUE 1e150
+
+// Per-column outcome of the regressor screening (out_column_status).
+#define TSERIES_EXOG_USED 0
+#define TSERIES_EXOG_ALL_ZERO 1              // the raw column is identically 0
+#define TSERIES_EXOG_CONSTANT_AFTER_DIFF 2   // non-zero raw, ~0 after differencing
+#define TSERIES_EXOG_COLLINEAR_INTERCEPT 3   // a constant, duplicating the intercept
+#define TSERIES_EXOG_COLLINEAR 4             // in the span of earlier columns
+
+// Regressor policy (the `exog_policy` argument).
+#define TSERIES_EXOG_POLICY_STRICT 0  // any defective column -> TSERIES_ERR_EXOG_DEFECT
+#define TSERIES_EXOG_POLICY_DROP 1    // defective columns are dropped, the rest fitted
+
+// Estimation methods for tseries_sarimax_fit. NOTE: these are tseries's own
+// constants, mapped explicitly onto ctsa's sarimax numbering inside the shim.
+// ctsa numbers its sarimax methods differently from its sarima methods (sarima:
+// 0 = MLE, 1 = CSS, 2 = Box-Jenkins; sarimax: 0 = CSS-then-MLE, 1 = MLE,
+// 2 = CSS), which is exactly the kind of thing that gets crossed by accident.
+#define TSERIES_SARIMAX_METHOD_CSS_MLE 0  // CSS estimates as the start, then exact MLE
+#define TSERIES_SARIMAX_METHOD_MLE 1      // exact MLE from a zero start
+#define TSERIES_SARIMAX_METHOD_CSS 2      // conditional sum of squares only
+
+// ---------------------------------------------------------------------------
+// Estimation methods (the `method` argument).
+// ---------------------------------------------------------------------------
+#define TSERIES_METHOD_MLE 0
+#define TSERIES_METHOD_CSS 1
+#define TSERIES_METHOD_BOX_JENKINS 2
+
+// ---------------------------------------------------------------------------
+// ctsa fit-status codes (`retval`), surfaced VERBATIM from the vendored
+// library -- see the "Error Codes" comment in ctsa.c and checkroots_cerr() in
+// emle.c. These are ctsa's codes, not tseries's, and the shim deliberately does
+// NOT act on them: it reports whatever ctsa produced so callers can measure the
+// real distribution of outcomes before deciding what (if anything) to reject.
+//
+// Only TSERIES_RETVAL_SUCCESS means "the requested estimator ran to
+// completion". In particular codes 10 and 12 are returned EARLY, before the MLE
+// step, so the coefficients are CSS estimates even when MLE was requested.
+// ---------------------------------------------------------------------------
+#define TSERIES_RETVAL_NOT_RUN 0            // ctsa 0: input error / never ran
+#define TSERIES_RETVAL_SUCCESS 1            // ctsa 1: upstream: "Probable Success"
+#define TSERIES_RETVAL_MAX_ITER 4           // ctsa 4: optimiser hit its iteration cap
+#define TSERIES_RETVAL_COLLINEAR_EXOG 7     // ctsa 7: exogenous regressors collinear
+#define TSERIES_RETVAL_NONSTATIONARY_AR 10  // ctsa 10: AR roots rejected -> CSS-only params
+#define TSERIES_RETVAL_NONSTATIONARY_SAR 12 // ctsa 12: seasonal AR roots rejected -> CSS-only params
+#define TSERIES_RETVAL_NON_FINITE 15        // ctsa 15: optimiser hit Inf/NaN
+
+// Estimated peak bytes of ctsa's exact-likelihood state for an order -- the
+// quantity every fixed-order entry point compares with TSERIES_MAX_STATE_BYTES.
+// `with_forecast` adds the AS 182 forecast state (which also grows with
+// d + s*D). Pure arithmetic in 64-bit; never allocates. Returns LLONG_MAX for a
+// configuration too large to even estimate. Negative inputs are treated as 0.
+TSERIES_EXPORT long long tseries_model_state_bytes(int p, int d, int q, int s,
+                                                   int P, int D, int Q,
+                                                   int with_forecast);
+
+// Smoke check: exercises the vendored ctsa (arima_init/arima_free) and returns
+// 42 on success, a negative value on failure. Used only to validate that the
+// native build + link + FFI lookup pipeline works end to end.
+TSERIES_EXPORT int tseries_smoke(void);
+
+// ---------------------------------------------------------------------------
+// Fixed-order (Seasonal) ARIMA fit + optional forecast.
+//
+// For a purely non-seasonal ARIMA(p,d,q) pass s = 0 and P = D = Q = 0.
+//
+// The caller owns every out buffer. Required lengths:
+//   out_phi    : p        (AR coeffs)          NULL allowed iff p == 0
+//   out_theta  : q        (MA coeffs)          NULL allowed iff q == 0
+//   out_bigphi : P        (seasonal AR)        NULL allowed iff P == 0
+//   out_bigtheta: Q       (seasonal MA)        NULL allowed iff Q == 0
+//   out_diag   : 4        -> {mean, sigma2, loglik, aic}  (required, non-NULL)
+//   out_forecast: horizon (>=0)                NULL allowed iff horizon == 0
+//   out_stderr : horizon                       NULL allowed iff horizon == 0
+//                (standard errors = sqrt of ctsa's per-step MSE)
+//   out_retval : 1        -> ctsa's own fit status (required, non-NULL)
+//
+// method: 0 = MLE (default), 1 = CSS, 2 = Box-Jenkins.
+//
+// out_retval receives a TSERIES_RETVAL_* code. It is written as soon as ctsa
+// returns -- BEFORE this shim applies any of its own validation -- so the caller
+// always sees the true ctsa status even when the fit is then rejected as
+// non-finite. It is TSERIES_RETVAL_NOT_RUN if an argument check failed and ctsa
+// was never invoked. NOTE: the shim does not reject any status; interpreting
+// them is the caller's job.
+//
+// out_diag[2] (loglik) and out_diag[3] (aic) are NaN whenever they are not
+// trustworthy, rather than a plausible-looking number:
+//   * aic    is real only for method == MLE with retval == SUCCESS.
+//   * loglik is real only for method MLE/CSS with retval == SUCCESS.
+//   * Box-Jenkins assigns neither; CSS assigns no aic; and on retval 10/12 ctsa
+//     returns before the MLE step, leaving a CSS log-likelihood (and an AIC
+//     derived from it) that is not comparable with an MLE fit's.
+// sarima_init leaves those two fields uninitialised, so outside the cases above
+// they are malloc garbage -- this shim therefore never reads them there. mean
+// and sigma2 are always real on TSERIES_OK.
+//
+// Returns TSERIES_OK, or a negative TSERIES_ERR_* code. On any error the model
+// is fully freed and no partial results should be trusted (but out_retval, if
+// ctsa ran, is still meaningful). TSERIES_ERR_TOO_LARGE is returned, before
+// ctsa is called, when the order's exact-likelihood state would exceed
+// TSERIES_MAX_STATE_BYTES (e.g. a seasonal MA term at s = 288).
+// TSERIES_ERR_BAD_SIZE is returned, before ctsa is called, when the series is
+// too short; on top of the general floor n > d + s*D + p + q + P + Q + 1, with
+// Nd = n - d - s*D the differenced length:
+//   * MLE/CSS: Nd <= p + s*P (ctsa's CSS step has no residual left and reads
+//     uninitialised memory -- results differ run to run);
+//   * Box-Jenkins: p + s*P > Nd or q + s*Q > Nd (out-of-bounds reads), and for
+//     a seasonal model (P + Q > 0) Nd <= (P + Q + 1)*s + 1 (uninitialised
+//     seasonal autocovariances).
+// PROVENANCE.md, Local modifications 12 and 15.
+TSERIES_EXPORT int tseries_sarima_fit(const double* series, int n, int p, int d,
+                                      int q, int s, int P, int D, int Q,
+                                      int method, int horizon, double* out_phi,
+                                      double* out_theta, double* out_bigphi,
+                                      double* out_bigtheta, double* out_diag,
+                                      double* out_forecast, double* out_stderr,
+                                      int* out_retval);
+
+// ---------------------------------------------------------------------------
+// Regression with (seasonal) ARIMA errors -- SARIMAX -- fit + optional forecast:
+//
+//     y_t = [mu] + sum_j beta_j * x_{j,t} + u_t,   u_t ~ SARIMA(p,d,q)(P,D,Q)[s]
+//
+// Built on ctsa's sarimax_init/exec/predict/free -- deliberately NOT on ctsa's
+// (since removed) sarimax_wrapper (left `idrift` uninitialised when drift was off,
+// so its predict read garbage) nor auto_arima with xreg (upstream issue #8). The
+// regressors are differenced together with y (d and D), exactly as ctsa does.
+//
+// Inputs:
+//   series      : n                         the observed series
+//   xreg        : n*r, COLUMN-major         xreg[j*n + i]; NULL iff r == 0
+//   future_xreg : horizon*r, COLUMN-major   future_xreg[j*horizon + i];
+//                                           NULL iff r == 0 or horizon == 0
+//   p,d,q,s,P,D,Q : the error model (s = 0 and P = D = Q = 0 for non-seasonal)
+//   method      : TSERIES_SARIMAX_METHOD_*  (mapped onto ctsa's numbering)
+//   include_mean: 1 = estimate an intercept mu. Only meaningful when
+//                 d + D == 0; ignored (no intercept) otherwise, as in ctsa.
+//   exog_policy : TSERIES_EXOG_POLICY_*
+//
+// Outputs (caller-owned):
+//   out_phi/out_theta/out_bigphi/out_bigtheta : p/q/P/Q, NULL allowed iff 0.
+//       MA terms in ctsa's convention, 1 - theta*B (opposite sign to R and
+//       statsmodels), exactly as tseries_sarima_fit reports them.
+//   out_beta          : r, NULL allowed iff r == 0. NaN for a dropped column.
+//   out_column_status : r, NULL allowed iff r == 0. TSERIES_EXOG_* per column.
+//                       Written on TSERIES_OK and on TSERIES_ERR_EXOG_DEFECT.
+//   out_diag          : 4 -> {mean, sigma2, loglik, aic} (required)
+//   out_vcov          : k*k row-major, NULL allowed (then not computed), with
+//       k = p + q + P + Q + m + r and m = 1 iff an intercept is estimated.
+//       Parameter order: phi, theta, PHI, THETA, [mu], beta_0..beta_{r-1};
+//       signs follow the reported coefficients. It is the inverse of ctsa's
+//       finite-difference Hessian of the (profile) log-likelihood at the
+//       optimum. Rows/columns of a dropped regressor are NaN; the whole matrix
+//       is NaN whenever it is not trustworthy (see below).
+//   out_forecast/out_stderr : horizon, NULL allowed iff horizon == 0
+//   out_retval        : 1 (required) -- ctsa's own status, verbatim, as in
+//                       tseries_sarima_fit (TSERIES_RETVAL_NOT_RUN if ctsa
+//                       never ran).
+//   out_bad_column    : 1 (required) -- index of the first defective regressor
+//                       column, or -1. Meaningful on TSERIES_ERR_EXOG_DEFECT and
+//                       on TSERIES_ERR_NON_FINITE (-1 then means "the series").
+//
+// Trust gates (the same discipline as tseries_sarima_fit):
+//   * loglik: real only for retval == SUCCESS and method CSS_MLE / MLE (an
+//     exact log-likelihood) or CSS (a CSS log-likelihood); NaN otherwise.
+//   * aic:    real only for retval == SUCCESS and method CSS_MLE / MLE. ctsa
+//     never assigns it for CSS; on retval 4/10/12/15 under CSS_MLE ctsa returns
+//     BEFORE the MLE step with CSS-only estimates.
+//   * vcov:   real only for retval == SUCCESS, method CSS_MLE / MLE, and a
+//     finite matrix with a strictly positive diagonal. ctsa's CSS-path Hessian
+//     is scaled by a wrongly double-differenced length, so it is never
+//     reported.
+//   * sigma2 <= 0 -> TSERIES_ERR_DEGENERATE (zero forecast uncertainty).
+//   * ctsa retval 7 means its regression step never ran at all (every
+//     coefficient is still zero); it is reported as
+//     TSERIES_ERR_NATIVE_COLLINEAR, never as a fit.
+//
+// Guards applied BEFORE ctsa is called (each would otherwise reach an exit(),
+// a NaN fit, or an unchecked multi-GB malloc inside ctsa):
+//   * every value of series, xreg and future_xreg finite and within
+//     +/-TSERIES_MAX_ABS_VALUE; so is every differenced value (differencing
+//     can overflow finite input);
+//   * regressor screening (TSERIES_EXOG_* above), under exog_policy;
+//   * residual degrees of freedom >= TSERIES_MIN_RESIDUAL_DOF;
+//   * with seasonal differencing (D > 0) and regressors in use, d * (used
+//     regressors) <= n - d - s*D (TSERIES_ERR_BAD_SIZE otherwise): ctsa's
+//     regression set-up writes past a heap buffer beyond that;
+//   * exact-likelihood state <= TSERIES_MAX_STATE_BYTES;
+//   * method is one of TSERIES_SARIMAX_METHOD_* (ctsa would exit(-1)).
+//
+// Returns TSERIES_OK or a negative TSERIES_ERR_* code.
+TSERIES_EXPORT int tseries_sarimax_fit(
+    const double* series, int n, const double* xreg, int r,
+    const double* future_xreg, int horizon, int p, int d, int q, int s, int P,
+    int D, int Q, int method, int include_mean, int exog_policy,
+    double* out_phi, double* out_theta, double* out_bigphi,
+    double* out_bigtheta, double* out_beta, int* out_column_status,
+    double* out_diag, double* out_vcov, double* out_forecast,
+    double* out_stderr, int* out_retval, int* out_bad_column);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // TSERIES_CTSA_H_

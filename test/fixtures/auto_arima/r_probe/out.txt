@@ -1,0 +1,37 @@
+# R R version 4.4.1 (2024-06-14) | forecast 8.23.0 | urca 1.3.4 
+KPSS air_log: n=144 ur.kpss(mu,short) teststat=2.828674795554 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+KPSS air_log_sdiff12: n=132 ur.kpss(mu,short) teststat=0.368163666674 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+KPSS air_log_diff1: n=143 ur.kpss(mu,short) teststat=0.028204527446 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=0 ndiffs(alpha=0.10)=0
+KPSS wwwusage: n=100 ur.kpss(mu,short) teststat=0.454244769061 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+KPSS wwwusage_diff1: n=99 ur.kpss(mu,short) teststat=0.217497544375 lag=3 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=0 ndiffs(alpha=0.10)=0
+KPSS lake_huron: n=98 ur.kpss(mu,short) teststat=0.995290114412 lag=3 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+KPSS nile: n=100 ur.kpss(mu,short) teststat=0.965434907753 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+KPSS lynx: n=114 ur.kpss(mu,short) teststat=0.070146706723 lag=4 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=0 ndiffs(alpha=0.10)=0
+KPSS us_acc_deaths: n=72 ur.kpss(mu,short) teststat=0.197994291329 lag=3 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=0 ndiffs(alpha=0.10)=0
+KPSS us_acc_sdiff12: n=60 ur.kpss(mu,short) teststat=1.022477912039 lag=3 cval10=0.347 cval5=0.463 cval2.5=0.574 cval1=0.739 | ndiffs(kpss,alpha=0.05)=1 ndiffs(alpha=0.10)=1
+# formals(ndiffs): x=; alpha=0.05; test=c("kpss", "adf", "pp"); type=c("level", "trend"); max.d=2; ...= 
+# auto.arima air_log d chosen: 1  nsdiffs: 1 
+
+## LakeHuron trace (d=1, stepwise, approximation=FALSE)
+
+ ARIMA(2,1,2) with drift         : Inf
+ ARIMA(0,1,0) with drift         : 222.340144077863
+ ARIMA(1,1,0) with drift         : 222.711629451783
+ ARIMA(0,1,1) with drift         : 221.762245749541
+ ARIMA(0,1,0)                    : 220.257864675638
+ ARIMA(1,1,1) with drift         : 223.233235448276
+
+ Best model: ARIMA(0,1,0)                    
+
+
+## LakeHuron fixed orders
+Arima(0,1,0) drift=FALSE loglik=-109.107879706 aicc=220.257864676 sigma2=0.558781862 coef=
+Arima(0,1,0) drift=TRUE loglik=-109.106242252 aicc=222.340144078 sigma2=0.564583615 coef=drift=-0.004329897
+Arima(0,1,1) drift=FALSE loglik=-107.752159740 aicc=219.631979054 sigma2=0.548905271 coef=ma1=0.200253693
+Arima(0,1,1) drift=TRUE loglik=-107.752090616 aicc=221.762245748 sigma2=0.554682507 coef=ma1=0.200228793,drift=-0.001055004
+Arima(1,1,0) drift=FALSE loglik=-108.226999489 aicc=220.581658553 sigma2=0.554397222 coef=ar1=0.136241842
+Arima(1,1,0) drift=TRUE loglik=-108.226782468 aicc=222.711629452 sigma2=0.560230605 coef=ar1=0.136184387,drift=-0.001804123
+Arima(1,1,2) drift=FALSE loglik=-102.561909894 aicc=213.558602397 sigma2=0.500537718 coef=ar1=0.647469333,ma1=-0.583636447,ma2=-0.327910106
+Arima(1,1,2) drift=TRUE loglik=-101.591948249 aicc=213.843237156 sigma2=0.484819021 coef=ar1=0.674065907,ma1=-0.651754199,ma2=-0.348241034,drift=-0.020881621
+Arima(2,1,1) drift=FALSE loglik=-102.535634604 aicc=213.506051817 sigma2=0.500269796 coef=ar1=0.971196557,ar2=-0.292360321,ma1=-0.910752710
+Arima(2,1,1) drift=TRUE loglik=-101.698717805 aicc=214.056776269 sigma2=0.484900141 coef=ar1=1.011972878,ar2=-0.282698871,ma1=-0.999999175,drift=-0.021359909

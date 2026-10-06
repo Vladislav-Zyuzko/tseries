@@ -1,0 +1,46 @@
+# ffigen configuration for the tseries native shim.
+#
+# Regenerate the raw bindings with:
+#     dart run ffigen --config ffigen.yaml
+#
+# ffigen reads our C shim header (native/tseries_ctsa.h) and emits `@Native`
+# code-asset bindings that resolve against the `ctsa` code asset produced by
+# hook/build.dart (asset id `package:tseries/ctsa`). We bind ONLY the shim's
+# `tseries_*` surface — never ctsa's internals or any struct (the shim keeps
+# every ctsa struct on the C side; see native/tseries_ctsa.h for why).
+#
+# Requires libclang (part of an LLVM install). If ffigen cannot find libclang,
+# set `llvm-path` below to your LLVM directory.
+name: TseriesCtsaBindings
+description: >-
+  Raw dart:ffi bindings to the tseries C shim over the vendored ctsa library.
+  Machine-generated — do not edit by hand; regenerate via `dart run ffigen`.
+output: 'lib/src/ffi/bindings/tseries_ctsa_bindings.g.dart'
+
+# Emit @Native bindings backed by the code asset (no DynamicLibrary needed).
+ffi-native:
+  asset-id: 'package:tseries/ctsa'
+
+headers:
+  entry-points:
+    - 'native/tseries_ctsa.h'
+  include-directives:
+    - 'native/tseries_ctsa.h'
+
+# Only the shim's public surface. ctsa's own symbols are intentionally excluded.
+functions:
+  include:
+    - 'tseries_.*'
+
+# Keep the numeric macros (status codes) that the wrapper mirrors.
+macros:
+  include:
+    - 'TSERIES_.*'
+
+comments:
+  style: any
+  length: full
+
+preamble: |
+  // dart format off
+  // ignore_for_file: type=lint, unused_element, unused_field, camel_case_types

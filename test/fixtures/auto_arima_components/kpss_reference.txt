@@ -1,0 +1,24 @@
+# statsmodels 0.14.6 | numpy 2.5.3 | mpmath 1.4.1 | tool/auto_arima_components_reference.py
+# name|transform|T|lag|eta
+air_passengers_log|level|144|4|2.8286747955542157
+air_passengers_log|diff1|143|4|0.02820452744646556
+air_passengers_log|diff2|142|4|0.0225591924638369
+air_passengers_log|sdiff|132|4|0.36816366667383715
+air_passengers_log|sdiff_diff1|131|4|0.08436451900355552
+wwwusage|level|100|4|0.4542447690613935
+wwwusage|diff1|99|3|0.21749754437546417
+wwwusage|diff2|98|3|0.05198344563949729
+lynx|level|114|4|0.0701467067231069
+lynx|diff1|113|4|0.018808080189218607
+lynx|diff2|112|4|0.01946708148199781
+lake_huron|level|98|3|0.9952901144115357
+lake_huron|diff1|97|3|0.06039067315205841
+lake_huron|diff2|96|3|0.043324575828936736
+nile|level|100|4|0.96543490775266
+nile|diff1|99|3|0.023267529549552517
+nile|diff2|98|3|0.019663336215977534
+us_acc_deaths|level|72|3|0.19799429132876145
+us_acc_deaths|diff1|71|3|0.02751277740433994
+us_acc_deaths|diff2|70|3|0.028724514016514262
+us_acc_deaths|sdiff|60|3|1.0224779120388217
+us_acc_deaths|sdiff_diff1|59|3|0.05876496066822139

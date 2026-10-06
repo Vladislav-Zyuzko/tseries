@@ -1,0 +1,7 @@
+# Heavy autoArima gates (synthetic study, fresh-process determinism, the full
+# length-rule sweep) are tagged `heavy` and skipped by the default run.
+# Run them with:  dart test --tags heavy --run-skipped
+tags:
+  heavy:
+    skip: "heavy autoArima gate; run with --tags heavy --run-skipped"
+    timeout: 30m

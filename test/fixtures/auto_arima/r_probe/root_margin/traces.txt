@@ -1,0 +1,264 @@
+# R R version 4.4.1 (2024-06-14) | forecast 8.23.0 
+
+## ar1_n200_r2  n=200 period=1 d*=0 D*=0
+
+ ARIMA(2,0,2) with non-zero mean : Inf
+ ARIMA(0,0,0) with non-zero mean : 716.7225304
+ ARIMA(1,0,0) with non-zero mean : 595.4799279
+ ARIMA(0,0,1) with non-zero mean : 619.3424449
+ ARIMA(0,0,0) with zero mean     : 1499.806631
+ ARIMA(2,0,0) with non-zero mean : 594.6710687
+ ARIMA(3,0,0) with non-zero mean : 596.6791129
+ ARIMA(2,0,1) with non-zero mean : Inf
+ ARIMA(1,0,1) with non-zero mean : 594.6394127
+ ARIMA(1,0,2) with non-zero mean : 596.6409877
+ ARIMA(0,0,2) with non-zero mean : 606.6094013
+ ARIMA(1,0,1) with zero mean     : Inf
+
+ Best model: ARIMA(1,0,1) with non-zero mean 
+
+Chosen: ARIMA(1,0,1) with non-zero mean  aicc= 594.6394127 
+
+## arima111_n200_r3  n=200 period=1 d*=1 D*=0
+
+ ARIMA(2,1,2) with drift         : 536.8020499
+ ARIMA(0,1,0) with drift         : 668.9766312
+ ARIMA(1,1,0) with drift         : 541.3750444
+ ARIMA(0,1,1) with drift         : 563.1211246
+ ARIMA(0,1,0)                    : 667.5573686
+ ARIMA(1,1,2) with drift         : 534.9858095
+ ARIMA(0,1,2) with drift         : 541.0992286
+ ARIMA(1,1,1) with drift         : 534.0653535
+ ARIMA(2,1,1) with drift         : 535.0822247
+ ARIMA(2,1,0) with drift         : 532.9775782
+ ARIMA(3,1,0) with drift         : 535.0822028
+ ARIMA(3,1,1) with drift         : 535.7678711
+ ARIMA(2,1,0)                    : 531.0077234
+ ARIMA(1,1,0)                    : 539.3661408
+ ARIMA(3,1,0)                    : 533.0908258
+ ARIMA(2,1,1)                    : 533.0908278
+ ARIMA(1,1,1)                    : 532.0705786
+ ARIMA(3,1,1)                    : 533.75229
+
+ Best model: ARIMA(2,1,0)                    
+
+Chosen: ARIMA(2,1,0)  aicc= 531.0077234 
+
+## ar2_n200_r0  n=200 period=1 d*=0 D*=0
+
+ ARIMA(2,0,2) with non-zero mean : 564.7361937
+ ARIMA(0,0,0) with non-zero mean : 694.8917896
+ ARIMA(1,0,0) with non-zero mean : 577.1875639
+ ARIMA(0,0,1) with non-zero mean : 634.0930602
+ ARIMA(0,0,0) with zero mean     : 1514.803414
+ ARIMA(1,0,2) with non-zero mean : 565.2629808
+ ARIMA(2,0,1) with non-zero mean : 564.7580221
+ ARIMA(3,0,2) with non-zero mean : 566.0202138
+ ARIMA(2,0,3) with non-zero mean : 565.2828449
+ ARIMA(1,0,1) with non-zero mean : 570.7116711
+ ARIMA(1,0,3) with non-zero mean : 563.139792
+ ARIMA(0,0,3) with non-zero mean : 571.6573594
+ ARIMA(1,0,4) with non-zero mean : 565.281259
+ ARIMA(0,0,2) with non-zero mean : 578.2304978
+ ARIMA(0,0,4) with non-zero mean : 570.749496
+ ARIMA(2,0,4) with non-zero mean : 567.4481545
+ ARIMA(1,0,3) with zero mean     : Inf
+
+ Best model: ARIMA(1,0,3) with non-zero mean 
+
+Chosen: ARIMA(1,0,3) with non-zero mean  aicc= 563.139792 
+
+## airline_n200_r49  n=200 period=12 d*=1 D*=1
+
+ ARIMA(2,1,2)(1,1,1)[12]                    : 566.0079575
+ ARIMA(0,1,0)(0,1,0)[12]                    : 635.6941581
+ ARIMA(1,1,0)(1,1,0)[12]                    : 578.6986544
+ ARIMA(0,1,1)(0,1,1)[12]                    : 565.0694022
+ ARIMA(0,1,1)(0,1,0)[12]                    : 617.2419546
+ ARIMA(0,1,1)(1,1,1)[12]                    : 564.490904
+ ARIMA(0,1,1)(1,1,0)[12]                    : 571.8162123
+ ARIMA(0,1,1)(2,1,1)[12]                    : 566.0437486
+ ARIMA(0,1,1)(1,1,2)[12]                    : 565.4420653
+ ARIMA(0,1,1)(0,1,2)[12]                    : 563.8173452
+ ARIMA(0,1,0)(0,1,2)[12]                    : 577.2798783
+ ARIMA(1,1,1)(0,1,2)[12]                    : 561.1019178
+ ARIMA(1,1,1)(0,1,1)[12]                    : 563.0471349
+ ARIMA(1,1,1)(1,1,2)[12]                    : 562.7023153
+ ARIMA(1,1,1)(1,1,1)[12]                    : 561.8770409
+ ARIMA(1,1,0)(0,1,2)[12]                    : 569.1342896
+ ARIMA(2,1,1)(0,1,2)[12]                    : 563.219451
+ ARIMA(1,1,2)(0,1,2)[12]                    : 563.2091324
+ ARIMA(0,1,2)(0,1,2)[12]                    : 561.7912883
+ ARIMA(2,1,0)(0,1,2)[12]                    : 564.4316627
+ ARIMA(2,1,2)(0,1,2)[12]                    : 564.2302994
+
+ Best model: ARIMA(1,1,1)(0,1,2)[12]                    
+
+Chosen: ARIMA(1,1,1)(0,1,2)[12]  aicc= 561.1019178 
+
+## wn_n200_r6  n=200 period=1 d*=0 D*=0
+
+ ARIMA(2,0,2) with non-zero mean : 566.8290153
+ ARIMA(0,0,0) with non-zero mean : 569.680782
+ ARIMA(1,0,0) with non-zero mean : 568.4376939
+ ARIMA(0,0,1) with non-zero mean : 568.9401275
+ ARIMA(0,0,0) with zero mean     : 1495.332589
+ ARIMA(1,0,2) with non-zero mean : 569.4495902
+ ARIMA(2,0,1) with non-zero mean : 571.4929006
+ ARIMA(3,0,2) with non-zero mean : 567.2680657
+ ARIMA(2,0,3) with non-zero mean : 567.5453437
+ ARIMA(1,0,1) with non-zero mean : 570.2200549
+ ARIMA(1,0,3) with non-zero mean : 567.8034397
+ ARIMA(3,0,1) with non-zero mean : 566.3458767
+ ARIMA(3,0,0) with non-zero mean : 567.9406753
+ ARIMA(4,0,1) with non-zero mean : 567.4357435
+ ARIMA(2,0,0) with non-zero mean : 569.4816867
+ ARIMA(4,0,0) with non-zero mean : 565.5317608
+ ARIMA(5,0,0) with non-zero mean : 567.6426489
+ ARIMA(5,0,1) with non-zero mean : 569.5533545
+ ARIMA(4,0,0) with zero mean     : Inf
+
+ Best model: ARIMA(4,0,0) with non-zero mean 
+
+Chosen: ARIMA(4,0,0) with non-zero mean  aicc= 565.5317608 
+
+## ar1_n200_r1  n=200 period=1 d*=1 D*=0
+
+ ARIMA(2,1,2) with drift         : Inf
+ ARIMA(0,1,0) with drift         : 587.9200611
+ ARIMA(1,1,0) with drift         : 582.3897205
+ ARIMA(0,1,1) with drift         : 580.2628174
+ ARIMA(0,1,0)                    : 585.8806396
+ ARIMA(1,1,1) with drift         : Inf
+ ARIMA(0,1,2) with drift         : 579.0017564
+ ARIMA(1,1,2) with drift         : Inf
+ ARIMA(0,1,3) with drift         : 576.9852206
+ ARIMA(1,1,3) with drift         : Inf
+ ARIMA(0,1,4) with drift         : 576.1868309
+ ARIMA(1,1,4) with drift         : Inf
+ ARIMA(0,1,5) with drift         : 577.9348053
+ ARIMA(1,1,5) with drift         : 580.3742471
+ ARIMA(0,1,4)                    : 574.0995358
+ ARIMA(0,1,3)                    : 574.8867414
+ ARIMA(1,1,4)                    : Inf
+ ARIMA(0,1,5)                    : 575.8519996
+ ARIMA(1,1,3)                    : 568.3820554
+ ARIMA(1,1,2)                    : 566.2774842
+ ARIMA(0,1,2)                    : 576.9215063
+ ARIMA(1,1,1)                    : 565.0752273
+ ARIMA(0,1,1)                    : 578.2025939
+ ARIMA(1,1,0)                    : 580.3292443
+ ARIMA(2,1,1)                    : 566.2719422
+ ARIMA(2,1,0)                    : 580.4319996
+ ARIMA(2,1,2)                    : 568.3617832
+
+ Best model: ARIMA(1,1,1)                    
+
+Chosen: ARIMA(1,1,1)  aicc= 565.0752273 
+
+## ima_n200_r55  n=200 period=1 d*=1 D*=0
+
+ ARIMA(2,1,2) with drift         : 568.5555904
+ ARIMA(0,1,0) with drift         : 592.6359253
+ ARIMA(1,1,0) with drift         : 580.3104154
+ ARIMA(0,1,1) with drift         : 572.0103081
+ ARIMA(0,1,0)                    : 594.4320575
+ ARIMA(1,1,2) with drift         : 573.5939158
+ ARIMA(2,1,1) with drift         : 572.7145644
+ ARIMA(3,1,2) with drift         : 567.4884294
+ ARIMA(3,1,1) with drift         : 566.1883108
+ ARIMA(3,1,0) with drift         : 564.9451127
+ ARIMA(2,1,0) with drift         : 575.9481723
+ ARIMA(4,1,0) with drift         : 565.8193752
+ ARIMA(4,1,1) with drift         : 567.1546589
+ ARIMA(3,1,0)                    : 564.7227637
+ ARIMA(2,1,0)                    : 576.9276695
+ ARIMA(4,1,0)                    : 565.3217355
+ ARIMA(3,1,1)                    : 565.7086239
+ ARIMA(2,1,1)                    : 573.5331461
+ ARIMA(4,1,1)                    : 566.7346223
+
+ Best model: ARIMA(3,1,0)                    
+
+Chosen: ARIMA(3,1,0)  aicc= 564.7227637 
+
+## ar2_n500_r97  n=500 period=1 d*=0 D*=0
+
+ ARIMA(2,0,2) with non-zero mean : 1483.343494
+ ARIMA(0,0,0) with non-zero mean : 1771.478873
+ ARIMA(1,0,0) with non-zero mean : 1522.134085
+ ARIMA(0,0,1) with non-zero mean : 1637.275777
+ ARIMA(0,0,0) with zero mean     : 3735.011143
+ ARIMA(1,0,2) with non-zero mean : 1481.808284
+ ARIMA(0,0,2) with non-zero mean : 1549.352596
+ ARIMA(1,0,1) with non-zero mean : 1488.986066
+ ARIMA(1,0,3) with non-zero mean : 1483.411517
+ ARIMA(0,0,3) with non-zero mean : 1513.876555
+ ARIMA(2,0,1) with non-zero mean : 1481.507265
+ ARIMA(2,0,0) with non-zero mean : 1479.718299
+ ARIMA(3,0,0) with non-zero mean : 1481.480785
+ ARIMA(3,0,1) with non-zero mean : 1476.1048
+ ARIMA(4,0,1) with non-zero mean : 1478.066972
+ ARIMA(3,0,2) with non-zero mean : 1478.051473
+ ARIMA(4,0,0) with non-zero mean : 1483.378857
+ ARIMA(4,0,2) with non-zero mean : 1483.260979
+ ARIMA(3,0,1) with zero mean     : Inf
+
+ Best model: ARIMA(3,0,1) with non-zero mean 
+
+Chosen: ARIMA(3,0,1) with non-zero mean  aicc= 1476.1048 
+
+## arma11_n500_r15  n=500 period=1 d*=0 D*=0
+
+ ARIMA(2,0,2) with non-zero mean : Inf
+ ARIMA(0,0,0) with non-zero mean : 1808.060517
+ ARIMA(1,0,0) with non-zero mean : 1502.034085
+ ARIMA(0,0,1) with non-zero mean : 1522.306457
+ ARIMA(0,0,0) with zero mean     : 3740.04585
+ ARIMA(2,0,0) with non-zero mean : 1471.93257
+ ARIMA(3,0,0) with non-zero mean : 1467.801685
+ ARIMA(4,0,0) with non-zero mean : 1469.486421
+ ARIMA(3,0,1) with non-zero mean : 1469.107491
+ ARIMA(2,0,1) with non-zero mean : 1467.081754
+ ARIMA(1,0,1) with non-zero mean : 1465.057412
+ ARIMA(1,0,2) with non-zero mean : 1467.080585
+ ARIMA(0,0,2) with non-zero mean : 1476.126453
+ ARIMA(1,0,1) with zero mean     : Inf
+
+ Best model: ARIMA(1,0,1) with non-zero mean 
+
+Chosen: ARIMA(1,0,1) with non-zero mean  aicc= 1465.057412 
+
+## airline_n500_r34  n=500 period=12 d*=2 D*=0
+
+ ARIMA(2,2,2)(1,0,1)[12]                    : Inf
+ ARIMA(0,2,0)                               : 2298.730109
+ ARIMA(1,2,0)(1,0,0)[12]                    : 1825.185306
+ ARIMA(0,2,1)(0,0,1)[12]                    : Inf
+ ARIMA(1,2,0)                               : 2065.952247
+ ARIMA(1,2,0)(2,0,0)[12]                    : 1768.517866
+ ARIMA(1,2,0)(2,0,1)[12]                    : Inf
+ ARIMA(1,2,0)(1,0,1)[12]                    : Inf
+ ARIMA(0,2,0)(2,0,0)[12]                    : 1981.881962
+ ARIMA(2,2,0)(2,0,0)[12]                    : 1636.881899
+ ARIMA(2,2,0)(1,0,0)[12]                    : 1703.558975
+ ARIMA(2,2,0)(2,0,1)[12]                    : Inf
+ ARIMA(2,2,0)(1,0,1)[12]                    : Inf
+ ARIMA(3,2,0)(2,0,0)[12]                    : 1577.995343
+ ARIMA(3,2,0)(1,0,0)[12]                    : 1640.539962
+ ARIMA(3,2,0)(2,0,1)[12]                    : Inf
+ ARIMA(3,2,0)(1,0,1)[12]                    : Inf
+ ARIMA(4,2,0)(2,0,0)[12]                    : 1531.719957
+ ARIMA(4,2,0)(1,0,0)[12]                    : 1594.855309
+ ARIMA(4,2,0)(2,0,1)[12]                    : Inf
+ ARIMA(4,2,0)(1,0,1)[12]                    : Inf
+ ARIMA(5,2,0)(2,0,0)[12]                    : 1513.573581
+ ARIMA(5,2,0)(1,0,0)[12]                    : 1574.893071
+ ARIMA(5,2,0)(2,0,1)[12]                    : Inf
+ ARIMA(5,2,0)(1,0,1)[12]                    : Inf
+ ARIMA(5,2,1)(2,0,0)[12]                    : Inf
+ ARIMA(4,2,1)(2,0,0)[12]                    : Inf
+
+ Best model: ARIMA(5,2,0)(2,0,0)[12]                    
+
+Chosen: ARIMA(5,2,0)(2,0,0)[12]  aicc= 1513.573581 

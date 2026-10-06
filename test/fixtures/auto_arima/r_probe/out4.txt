@@ -1,0 +1,103 @@
+## n = 70 
+rw_1                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_2                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2} rule=1 
+rw_3                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_4                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_5                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 
+rw_6                   n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_1                n= 70 ndiffs[a=.01,.025,.05,.10]=0,0,0,1 | step1 lags consistent: {1} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_2                n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_3                n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_4                n= 70 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {1} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+lake_huron_head        n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+nile_head              n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+wwwusage_head          n= 70 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1} rule=1 
+air_log_head           n= 70 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=69) consistent: {0,1,2,3,4,5,6} rule=1 
+## n = 75 
+rw_1                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_2                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_3                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_4                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_5                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_6                   n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_1                n= 75 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 
+ar0.9_2                n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_3                n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_4                n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+lake_huron_head        n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+nile_head              n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+wwwusage_head          n= 75 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1} rule=1 
+air_log_head           n= 75 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=1 sqrt/4=2 l4=3 || step2 (T=74) consistent: {0,1,2,3,4,5,6} rule=1 
+## n = 76 
+rw_1                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_2                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_3                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,0,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_4                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+rw_5                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 
+rw_6                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_1                n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_2                n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 
+ar0.9_3                n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,0,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+ar0.9_4                n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 
+lake_huron_head        n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+nile_head              n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+wwwusage_head          n= 76 ndiffs[a=.01,.025,.05,.10]=0,0,2,2 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2} rule=1 
+air_log_head           n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+## n = 150 
+rw_1                   n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_2                   n=150 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_3                   n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_4                   n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_5                   n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_6                   n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_1                n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_2                n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_3                n=150 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_4                n=150 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=149) consistent: {0,1,2,3,4,5,6} rule=2 
+## n = 168 
+rw_1                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {2,3,4,5} rule=2 
+rw_2                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_3                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_4                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_5                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+rw_6                   n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_1                n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_2                n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_3                n=168 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {2} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.9_4                n=168 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=3 l4=4 || step2 (T=167) consistent: {0,1,2,3,4,5,6} rule=2 
+## n = 170 
+rw_1                   n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+rw_2                   n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+rw_3                   n=170 ndiffs[a=.01,.025,.05,.10]=0,0,0,1 | step1 lags consistent: {3} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+rw_4                   n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+rw_5                   n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+rw_6                   n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+ar0.9_1                n=170 ndiffs[a=.01,.025,.05,.10]=0,0,1,1 | step1 lags consistent: {3,4} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+ar0.9_2                n=170 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=3 sqrt/4=3 l4=4 
+ar0.9_3                n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+ar0.9_4                n=170 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=3 sqrt/4=3 l4=4 || step2 (T=169) consistent: {0,1,2,3,4,5,6} rule=3 
+## n = 100, three DGPs
+wn_1                   n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.5_1                n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,1 | step1 lags consistent: {2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {0,1,2,3,4,5,6} rule=2 
+ar0.95_1               n=100 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {2,4} rule=2 
+wn_2                   n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.5_2                n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.95_2               n=100 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {0,1,2,3,4,5,6} rule=2 
+wn_3                   n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.5_3                n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.95_3               n=100 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {0,1,2,3,4,5,6} rule=2 
+wn_4                   n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.5_4                n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.95_4               n=100 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {0,1,2,3,4,5,6} rule=2 
+wn_5                   n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.5_5                n=100 ndiffs[a=.01,.025,.05,.10]=0,0,0,0 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 
+ar0.95_5               n=100 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=4 || step2 (T=99) consistent: {0,1,2,3,4,5,6} rule=2 
+## length 76, twice integrated (looking for ndiffs = 2)
+i2_1                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4} rule=1 
+i2_2                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,1,1,1 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {1,2,3,4,5,6} rule=1 
+i2_3                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1} rule=1 
+i2_4                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1} rule=1 
+i2_5                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+i2_6                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+i2_7                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 
+i2_8                   n= 76 ndiffs[a=.01,.025,.05,.10]=0,2,2,2 | step1 lags consistent: {0,1,2,3,4,5,6} | rule3sqrt/13=2 sqrt/4=2 l4=3 || step2 (T=75) consistent: {0,1,2,3,4,5,6} rule=1 

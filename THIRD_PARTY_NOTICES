@@ -1,0 +1,210 @@
+tseries — third-party notices
+
+The package itself is licensed under BSD-3-Clause (see LICENSE). This file
+collects the notices of the third-party code compiled into the `ctsa` code
+asset.
+
+--------------------------------------------------------------------------------
+
+THIRD-PARTY NOTICES
+
+The license above covers the tseries Dart code, the C shim in `native/` and
+tseries' own C replacements in `third_party/ctsa_replacements/`. The native
+core is the vendored ctsa library in `third_party/ctsa/`
+(https://github.com/rafat/ctsa), compiled into the `ctsa` code asset. That tree
+is mixed-license; its components and their notices follow. Per-file and
+per-function licensing is marked with SPDX-License-Identifier comments in the
+vendored sources.
+
+LGPL: none. The units upstream marks LGPL-3.0-or-later (`src/brent.c`,
+`src/brent.h`, `src/erfunc.c` and two sections of `src/dist.c`) have been
+removed from this tree and replaced by independent BSD-3-Clause
+implementations; see `third_party/ctsa/PROVENANCE.md`.
+
+Also replaced or removed for licensing reasons (same file): ACM Algorithm 419
+(`src/polyroot.c`, ACM non-commercial licence) and `ppsum()` of `src/talg.c`
+(from the GPL R package tseries) are replaced by BSD-3-Clause code in
+`third_party/ctsa_replacements/`; unreachable Numerical Recipes routines
+(`src/matrix.c`), Applied Statistics algorithm AS 197 (`src/emle.c`,
+`src/talg.c`) and C versions of R's ARIMA parameter transforms (`src/talg.c`)
+are deleted. The auto-ARIMA code — a C version of GPL-licensed R code (the
+order search in `src/ctsa.c`, `src/autoutils.c` and `src/seastest.c` from the
+R package forecast, `src/unitroot.c` from R packages tseries/urca, `src/stl.c`
+from R's modified netlib STL, and `supsmu` in `src/talg.c`) — is deleted in
+0.8.0; order selection (`autoArima`) is tseries' own Dart code. The
+unaudited `sarimax_wrapper()` group of `src/ctsa.c` (never called by tseries)
+and `src/boxcox.c`, its last user, are deleted as well.
+
+OPEN LICENSING QUESTIONS (engineering notes, not legal advice) — see
+`third_party/ctsa/PROVENANCE.md`, "License audit" and "Open licensing
+questions", for detail:
+  * `src/emle.c` contains C translations of Applied Statistics algorithms
+    AS 154, AS 182 and AS 75 (exact ARIMA likelihood, forecasting, and the
+    least-squares helper they use); `src/neldermead.c` contains AS 47 (linked,
+    not used by tseries). StatLib states that the Royal Statistical Society
+    holds the copyright and permits distribution "provided that no fee is
+    charged". This code runs on every fit and forecast.
+  Its status has not been resolved. (`src/initest.c`, a "C translation of
+  Cedrick Collomb's C++ Implementation" of Burg's method for which no licence
+  was found, was unreachable and has been deleted.)
+
+--------------------------------------------------------------------------------
+
+ctsa (BSD-3-Clause) — third_party/ctsa/COPYRIGHT
+
+Copyright (c) 2014, Rafat Hussain
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+ 1.  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+ 2.  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer
+ 	in the documentation and/or other materials provided with the distribution.
+
+ 3.  The name of the author may not be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+ OF SUCH DAMAGE.
+
+--------------------------------------------------------------------------------
+
+log1p() in third_party/ctsa/src/dist.c (MIT) — after GeographicLib
+(https://github.com/geographiclib/geographiclib)
+
+Copyright (c) 2008-2025, Charles Karney
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+svd_sort() in third_party/ctsa/src/matrix.c — from the `csa' package
+
+Copyright (C) 2000-2008 Pavel Sakov and CSIRO
+
+Redistribution and use of material from the package `csa', with or without
+modification, are permitted provided that the following conditions are
+met:
+
+1. Redistributions of material must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+2. The names of the authors may not be used to endorse or promote products
+derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE AUTHORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGE.
+
+(The routines `svd_gr()`, `svd_gr2()` and `minfit()` of `src/lls.c`, tagged MIT
+upstream without a named copyright holder, were removed from this tree;
+`minfit()` is replaced by a BSD-3-Clause implementation in
+`third_party/ctsa_replacements/minfit.c`.)
+
+--------------------------------------------------------------------------------
+
+MINPACK — third_party/ctsa/src/lnsrchmp.c (line search after J. J. Moré and
+D. J. Thuente) and third_party/ctsa/src/nls.c (Levenberg-Marquardt routines)
+are C translations of MINPACK routines (Argonne National Laboratory).
+
+This product includes software developed by the University of Chicago, as
+Operator of Argonne National Laboratory.
+
+Minpack Copyright Notice (1999) University of Chicago.  All rights reserved
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+1. Redistributions of source code must retain the above
+copyright notice, this list of conditions and the following
+disclaimer.
+
+2. Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials
+provided with the distribution.
+
+3. The end-user documentation included with the
+redistribution, if any, must include the following
+acknowledgment:
+
+   "This product includes software developed by the
+   University of Chicago, as Operator of Argonne National
+   Laboratory.
+
+Alternately, this acknowledgment may appear in the software
+itself, if and wherever such third-party acknowledgments
+normally appear.
+
+4. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"
+WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE
+UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
+THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
+OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY
+OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR
+USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF
+THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)
+DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
+UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL
+BE CORRECTED.
+
+5. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT
+HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
+ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,
+INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF
+ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF
+PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER
+SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
+(INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
+EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
+POSSIBILITY OF SUCH LOSS OR DAMAGES.
+
+
+--------------------------------------------------------------------------------
+
+Wavelet sources — third_party/ctsa/src/wavefilt.c, wavefilt.h (vendored, not
+compiled into the library): BSD-3-Clause as ctsa above, with an additional
+copyright holder:
+
+Copyright (c) 2014, Rafat Hussain
+Copyright (C) 2016  Holger Nahrstaedt
+
+--------------------------------------------------------------------------------
+
+Public-domain / CC0 fragments
+
+Several routines in `src/dist.c` and `src/emle.c` are marked
+"SPDX-License-Identifier: CC0" upstream (pre-1988 algorithms published without
+a copyright notice; the `emle.c` ones are Applied Statistics algorithms noted
+upstream as "Royal Statistical Society - free to redistribute but no fee for
+redistribution"). No attribution is legally required for CC0; the full CC0 1.0
+text is in `third_party/ctsa/components_copyright/CC0`.

@@ -1,0 +1,12 @@
+# Development-only material that consumers of the package do not need.
+# Everything the native build needs (hook/, native/, third_party/ctsa/) and
+# the licensing record (LICENSE, third_party/ctsa/PROVENANCE.md, doc/*.md)
+# stays in the archive.
+tool/
+doc/upstream/
+test/fixtures/auto_arima/r_probe/
+test/fixtures/auto_arima/r_results/
+*.log
+
+.claude/
+build/

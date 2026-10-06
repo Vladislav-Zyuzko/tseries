@@ -1,0 +1,5 @@
+G0 (accepted): 378 checked, 378 pass, worst rel 3.266e-11 (wwwusage exhaustive (0,1,5)(0,0,0)[0] c=0)
+info (rejected, not CSS-only): 74 checked, 74 within tol, worst rel 1.933e-13 (air_passengers_log (0,1,2)(1,1,2)[12] rejectedRootsNearUnit)
+mean as trend='c' (converted) vs regression on ones: max rel diff 0.000e+00 over 33 fits
+excluded (no logLik or status 10/12): 4
+exit 0
